@@ -1,4 +1,5 @@
 import random 
+import matplotlib.pyplot as plt
 
 agent_count = 5
 runs_count = 10
@@ -54,7 +55,6 @@ class Collector(Agent):
             Collector.collector_count += 1
             newborns.append(Collector(f"c{Collector.collector_count}"))
 
-
 for run in range(runs_count):
     agents = []
     for i in range(agent_count):
@@ -70,7 +70,6 @@ for run in range(runs_count):
     alive=[]
 
     for day in range(days_count):
-        print(f"--- Day {day+1} ---")
         newborns = []
         
         for agent in agents:
@@ -86,6 +85,8 @@ for run in range(runs_count):
         newborn_count += len(newborns)
         newborn_count_c += len([c for c in newborns if 'c' in c.name])
         newborn_count_h += len([c for c in newborns if 'h' in c.name])
-        print(f"Newborns today: {len(newborns)}, Hunters: {len([c for c in newborns if 'h' in c.name])}, Collectors: {len([c for c in newborns if 'c' in c.name])}\n")
+        plt.plot(days,alive)
 
-    print(f"--- End ---\n Start agents: {agent_count} \n All agents: {len(agents)}, Hunters: {len([c for c in agents if 'h' in c.name])}, Collectors: {len([c for c in agents if 'c' in c.name])} \n Alive: {len([c for c in agents if c.alive])}, Hunters: {len([c for c in agents if 'h' in c.name and c.alive])}, Collectors: {len([c for c in agents if 'c' in c.name and c.alive])} \n Newborns: {newborn_count}, Hunters: {newborn_count_h}, Collectors: {newborn_count_c} \n Dead: {len([c for c in agents if not c.alive])}, Hunters: {len([c for c in agents if 'h' in c.name and not c.alive])}, Collectors: {len([c for c in agents if 'c' in c.name and not c.alive])}")
+
+plt.grid(True)
+plt.show()
