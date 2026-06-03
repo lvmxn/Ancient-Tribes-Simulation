@@ -33,7 +33,7 @@ class Hunter(Agent):
         if random.random() < 0.025:
             self.alive = False
     def breeding(self, newborns):
-        if self.food > 4:
+        while self.food > 4:
             self.food -= 1
             Hunter.hunter_count += 1
             newborns.append(Hunter(f"h{Hunter.hunter_count}"))
