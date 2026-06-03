@@ -1,6 +1,8 @@
 import random 
 
 agent_count = 5
+runs_count = 10
+days_count = 30
 
 class Agent():
     hunter_count = 0
@@ -52,35 +54,38 @@ class Collector(Agent):
             Collector.collector_count += 1
             newborns.append(Collector(f"c{Collector.collector_count}"))
 
-agents = []
-for i in range(agent_count):
-    Hunter.hunter_count += 1
-    Collector.collector_count += 1
-    agents.append(Hunter(f"h{Hunter.hunter_count}"))
-    agents.append(Collector(f"c{Collector.collector_count}"))
 
+for run in range(runs_count):
+    agents = []
+    for i in range(agent_count):
+        Hunter.hunter_count += 1
+        Collector.collector_count += 1
+        agents.append(Hunter(f"h{Hunter.hunter_count}"))
+        agents.append(Collector(f"c{Collector.collector_count}"))
 
-newborn_count = 0
-newborn_count_c = 0
-newborn_count_h = 0
+    newborn_count = 0
+    newborn_count_c = 0
+    newborn_count_h = 0
+    days = []
+    alive=[]
 
-for day in range(10):
-    print(f"--- Day {day+1} ---")
-    newborns = []
-    
-    for agent in agents:
-        if agent.alive:
-            agent.live()
-        if agent.alive:
-            agent.action()
-        if agent.alive:
-            agent.breeding(newborns)
-            print(agent.name, agent.food, agent.alive)
-    
-    agents.extend(newborns)
-    newborn_count += len(newborns)
-    newborn_count_c += len([c for c in newborns if 'c' in c.name])
-    newborn_count_h += len([c for c in newborns if 'h' in c.name])
-    print(f"Newborns today: {len(newborns)}, Hunters: {len([c for c in newborns if 'h' in c.name])}, Collectors: {len([c for c in newborns if 'c' in c.name])}\n")
+    for day in range(days_count):
+        print(f"--- Day {day+1} ---")
+        newborns = []
+        
+        for agent in agents:
+            if agent.alive:
+                agent.live()
+            if agent.alive:
+                agent.action()
+            if agent.alive:
+                agent.breeding(newborns)
+        days.append(day+1)
+        alive.append(len([c for c in agents if c.alive]))
+        agents.extend(newborns)
+        newborn_count += len(newborns)
+        newborn_count_c += len([c for c in newborns if 'c' in c.name])
+        newborn_count_h += len([c for c in newborns if 'h' in c.name])
+        print(f"Newborns today: {len(newborns)}, Hunters: {len([c for c in newborns if 'h' in c.name])}, Collectors: {len([c for c in newborns if 'c' in c.name])}\n")
 
-print(f"--- End ---\n Start agents: {agent_count} \n All agents: {len(agents)}, Hunters: {len([c for c in agents if 'h' in c.name])}, Collectors: {len([c for c in agents if 'c' in c.name])} \n Alive: {len([c for c in agents if c.alive])}, Hunters: {len([c for c in agents if 'h' in c.name and c.alive])}, Collectors: {len([c for c in agents if 'c' in c.name and c.alive])} \n Newborns: {newborn_count}, Hunters: {newborn_count_h}, Collectors: {newborn_count_c} \n Dead: {len([c for c in agents if not c.alive])}, Hunters: {len([c for c in agents if 'h' in c.name and not c.alive])}, Collectors: {len([c for c in agents if 'c' in c.name and not c.alive])}")
+    print(f"--- End ---\n Start agents: {agent_count} \n All agents: {len(agents)}, Hunters: {len([c for c in agents if 'h' in c.name])}, Collectors: {len([c for c in agents if 'c' in c.name])} \n Alive: {len([c for c in agents if c.alive])}, Hunters: {len([c for c in agents if 'h' in c.name and c.alive])}, Collectors: {len([c for c in agents if 'c' in c.name and c.alive])} \n Newborns: {newborn_count}, Hunters: {newborn_count_h}, Collectors: {newborn_count_c} \n Dead: {len([c for c in agents if not c.alive])}, Hunters: {len([c for c in agents if 'h' in c.name and not c.alive])}, Collectors: {len([c for c in agents if 'c' in c.name and not c.alive])}")
